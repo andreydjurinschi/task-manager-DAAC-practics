@@ -1,0 +1,13 @@
+# compose file for postgresql db connection
+volumes:
+  pg_task-manager:
+services:
+  task-manager_db:
+    image: 'postgres'
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - pg_task-manager:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
