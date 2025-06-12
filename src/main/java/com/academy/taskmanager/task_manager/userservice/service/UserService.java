@@ -36,9 +36,8 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long Id){
-        User user = repository.findById(Id).orElseThrow(() -> new RuntimeException("asd"));\
+        User user = repository.findById(Id).orElseThrow(() -> new RuntimeException("asd"));
         return mapper.toDto(user);
-
     }
 
 
