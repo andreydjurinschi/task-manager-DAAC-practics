@@ -49,4 +49,22 @@ public class User {
     private void onCreate(){
         createdAt = LocalDateTime.now();
     }
+
+    public User(String username, String password, String email, String fullName, UserRole role, LocalDateTime createdAt) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
+
+    public User(Long id, String username, String password, String email, String fullName, UserRole role) {
+        this.Id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.role = role;
+    }
 }

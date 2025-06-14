@@ -1,8 +1,9 @@
 package com.academy.taskmanager.task_manager.userservice.repository;
 
-import com.academy.taskmanager.task_manager.taskservice.entities.Task;
+
 import com.academy.taskmanager.task_manager.userservice.entities.User;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,16 +20,49 @@ public class UserDaoImpl implements UserDAO{
         this.sessionFactory = sessionFactory;
     }
 
+
+    /**
+     * CREATES OR UPDATES THE USER
+     * @param user
+     */
     @Override
     public void createOrUpdate(User user) {
-
+        var session = sessionFactory.openSession();
+        var transaction = session.beginTransaction();
+        try(session) {
+            if(user.getId() == null){
+                session.persist(user);
+            }else{
+                session.merge(user);
+            }
+            transaction.commit();
+        }catch(Exception e){
+            transaction.rollback();
+        }
     }
 
+    /**
+     * Deletes an user
+     * @param Id
+     */
     @Override
-    public void delete(User user) {
-
+    public void delete(Long Id)  {
+        var session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try(session) {
+            User user = findById(Id);
+            session.remove(user.getId());
+            transaction.commit();
+        }catch(Exception e){
+            transaction.rollback();
+        }
     }
 
+    /**
+     * Find user by his id
+     * @param id
+     * @return user user
+     */
     @Override
     public User findById(long id) {
         try(var session = sessionFactory.openSession()) {
@@ -48,8 +82,4 @@ public class UserDaoImpl implements UserDAO{
         }
     }
 
-    @Override
-    public List<Task> getCompletedTasksByUser(Long Id) {
-        return List.of();
-    }
 }
