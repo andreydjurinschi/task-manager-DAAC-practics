@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDAO{
         Transaction transaction = session.beginTransaction();
         try(session) {
             User user = findById(Id);
-            session.remove(user.getId());
+            session.remove(user);
             transaction.commit();
         }catch(Exception e){
             transaction.rollback();
