@@ -23,6 +23,4 @@ public class UserDTO {
 
     private LocalDateTime createdAt;
 
-    private int completedTasks;
-
 }

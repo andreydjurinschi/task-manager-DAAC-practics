@@ -42,9 +42,6 @@ public class User {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    @Column(name="completed_tasks")
-    private int completedTasks;
-
     /**
      * On creating in Db
      */
