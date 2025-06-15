@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 })
 
 public class TaskManagerApplication {
-
+//http://localhost:8080/swagger-ui/index.html#/
 	public static void main(String[] args) {
 		SpringApplication.run(TaskManagerApplication.class, args);
 	}

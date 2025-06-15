@@ -39,7 +39,7 @@ public class TaskDaoImpl implements TaskDAO {
     @Override
     public List<Task> getTasksForUser(Long userId) {
         try(Session session = sessionFactory.openSession()) {
-            String sql = "from Task where assignedTo = :userId";
+            String sql = "from Task where assignedTo.Id = :userId";
             return session.createQuery(sql, Task.class).setParameter("userId", userId).list();
 
         }
@@ -85,7 +85,7 @@ public class TaskDaoImpl implements TaskDAO {
     @Override
     public List<Task> getTasksCreatedByUser(long Id) {
         try(Session session = sessionFactory.openSession()) {
-            String sql = "from Task where created_by = :userId";
+            String sql = "from Task where created_by.Id = :userId";
             return session.createQuery(sql, Task.class).setParameter("userId", Id).list();
         }
     }
@@ -110,7 +110,10 @@ public class TaskDaoImpl implements TaskDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try(session) {
-            session.createQuery("update Task t set t.status = :newStatus where t.id = :taskId", Task.class).executeUpdate();
+            session.createQuery("update Task t set t.status = :newStatus where t.id = :taskId")
+                    .setParameter("newStatus", newStatus)
+                    .setParameter("taskId", taskId)
+                    .executeUpdate();
             transaction.commit();
         }catch (Exception e){
             e.printStackTrace();
