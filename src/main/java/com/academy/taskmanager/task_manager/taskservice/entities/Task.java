@@ -49,4 +49,15 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_to", nullable = false)
     private User assignedTo;
+
+    public Task(String title, String description, TaskStatus status, LocalDateTime created_at, LocalDateTime updated_at, LocalDateTime due_date, User created_by, User assignedTo) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.due_date = due_date;
+        this.created_by = created_by;
+        this.assignedTo = assignedTo;
+    }
 }

@@ -55,7 +55,7 @@ public class UserController {
             userService.createUser(userCreateDTO);
             return new ResponseEntity<>(userCreateDTO,HttpStatus.CREATED);
         } catch (CreateOrUpdateEntityException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getErrors(), HttpStatus.NOT_FOUND);
         }
     }
 

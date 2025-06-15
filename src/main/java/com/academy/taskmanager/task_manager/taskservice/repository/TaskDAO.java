@@ -13,4 +13,6 @@ public interface TaskDAO {
     void createOrUpdateTask(Task task);
     void deleteTask(long id);
     List<Task> getTasksCreatedByUser(long Id);
+    void changeTaskToOtherUser(long taskId, long newUserId);
+    void changeTaskStatus(long taskId, TaskStatus newStatus);
 }

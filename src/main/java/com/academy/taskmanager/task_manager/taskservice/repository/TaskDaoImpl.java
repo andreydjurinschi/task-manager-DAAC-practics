@@ -1,10 +1,10 @@
 package com.academy.taskmanager.task_manager.taskservice.repository;
 
-import com.academy.taskmanager.task_manager.exceptions.CreateOrUpdateEntityException;
 import com.academy.taskmanager.task_manager.taskservice.entities.Task;
 import com.academy.taskmanager.task_manager.taskservice.entities.TaskStatus;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -87,6 +87,34 @@ public class TaskDaoImpl implements TaskDAO {
         try(Session session = sessionFactory.openSession()) {
             String sql = "from Task where created_by = :userId";
             return session.createQuery(sql, Task.class).setParameter("userId", Id).list();
+        }
+    }
+
+    @Override
+    public void changeTaskToOtherUser(long taskId, long newUserId) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try(session) {
+            session.createQuery("update Task t set t.assignedTo.Id = :newUserId where t.id = :taskId", Task.class)
+                    .setParameter("newUserId", newUserId)
+                    .setParameter("taskId", taskId).executeUpdate();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
+        }
+    }
+
+    @Override
+    public void changeTaskStatus(long taskId, TaskStatus newStatus) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try(session) {
+            session.createQuery("update Task t set t.status = :newStatus where t.id = :taskId", Task.class).executeUpdate();
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            transaction.rollback();
         }
     }
 }

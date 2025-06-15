@@ -10,4 +10,8 @@ public class CreateOrUpdateEntityException extends Exception{
         super("Validation failed");
         this.errors = errors;
     }
+
+    public String getErrors() {
+        return errors.toString();
+    }
 }
