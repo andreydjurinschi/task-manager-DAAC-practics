@@ -18,11 +18,7 @@ public class CreateTaskDTO {
 
     private String description;
 
-    private TaskStatus status = TaskStatus.New;
-
     private LocalDateTime created_at;
-
-    private LocalDateTime updated_at;
 
     private LocalDateTime due_date;
 

@@ -74,9 +74,35 @@ public class TaskService {
         return dtos;
     }
 
-    public void createTask(TaskDto taskDto) throws CreateOrUpdateEntityException {
+    public void createTask(CreateTaskDTO taskDTO) throws CreateOrUpdateEntityException {
         List<String> errors = new ArrayList<>();
+        if(!validator.checkIfNotEmpty(taskDTO.getTitle()) ||
+            !validator.checkLength(taskDTO.getTitle(), 5, 25)){
+            errors.add("Title must be between 5 and 25 characters");
+        }
+        if(!validator.checkIfNotEmpty(taskDTO.getDescription()) ||
+                !validator.checkLength(taskDTO.getDescription(), 5, 150)){
+            errors.add("Title must be between 5 and 25 characters");
+        }
+        if(taskDTO.getCreated_by() == null || taskDTO.getAssignedTo() == null){
+            errors.add("Users must ...");
+        }
+        if(taskDTO.getDue_date() == null){
+            errors.add("Due date baby ...");
+        }
 
+        User userCreator = userDao.findById(taskDTO.getCreated_by());
+        User assigner = userDao.findById(taskDTO.getAssignedTo());
+        if(userCreator == null){
+            errors.add("Creator does not exists");
+        }
+        if(assigner == null){
+            errors.add("Assigner does not exists");
+        }
+        if(!errors.isEmpty()){
+            throw new CreateOrUpdateEntityException(errors);
+        }
+        taskDao.createOrUpdateTask(taskMapper.createTaskToEntity(taskDTO, userCreator, assigner));
     }
 
 

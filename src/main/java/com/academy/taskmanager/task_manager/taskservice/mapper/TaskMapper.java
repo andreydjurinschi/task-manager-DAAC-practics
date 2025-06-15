@@ -3,8 +3,11 @@ package com.academy.taskmanager.task_manager.taskservice.mapper;
 import com.academy.taskmanager.task_manager.taskservice.dtos.CreateTaskDTO;
 import com.academy.taskmanager.task_manager.taskservice.dtos.TaskDto;
 import com.academy.taskmanager.task_manager.taskservice.entities.Task;
+import com.academy.taskmanager.task_manager.taskservice.entities.TaskStatus;
 import com.academy.taskmanager.task_manager.userservice.entities.User;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class TaskMapper {
@@ -14,6 +17,6 @@ public class TaskMapper {
     }
 
     public Task createTaskToEntity(CreateTaskDTO dto, User creator, User assignedTo) {
-        return new Task(dto.getTitle(), dto.getDescription(), dto.getStatus(), dto.getCreated_at(), dto.getUpdated_at(), dto.getDue_date(), creator, assignedTo);
+        return new Task(dto.getTitle(), dto.getDescription(), TaskStatus.New, dto.getCreated_at(), LocalDateTime.now(), dto.getDue_date(), creator, assignedTo);
     }
 }

@@ -50,6 +50,16 @@ public class Task {
     @JoinColumn(name = "assigned_to", nullable = false)
     private User assignedTo;
 
+    @PrePersist
+    private void onCreate(){
+        created_at = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdated(){
+        updated_at = LocalDateTime.now();
+    }
+
     public Task(String title, String description, TaskStatus status, LocalDateTime created_at, LocalDateTime updated_at, LocalDateTime due_date, User created_by, User assignedTo) {
         this.title = title;
         this.description = description;
