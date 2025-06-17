@@ -27,18 +27,24 @@ public class UserDaoImpl implements UserDAO{
      */
     @Override
     public void createOrUpdate(User user) {
-        var session = sessionFactory.openSession();
-        var transaction = session.beginTransaction();
-        try(session) {
-            if(user.getId() == null){
-                session.persist(user);
-            }else{
-                session.merge(user);
+        try (var session = sessionFactory.openSession()) {
+            var transaction = session.beginTransaction();
+
+            try {
+                if (user.getId() == null) {
+                    session.persist(user);
+                } else {
+                    session.merge(user);
+                }
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
+                throw e;
             }
-            transaction.commit();
-        }catch(Exception e){
-            transaction.rollback();
         }
+
     }
 
     /**
@@ -81,5 +87,15 @@ public class UserDaoImpl implements UserDAO{
             return session.createQuery("from User", User.class).list();
         }
     }
+
+    @Override
+    public User findByUsername(String username) {
+        try(var session = sessionFactory.openSession()){
+            String sql = "from User u where u.username = :username";
+            return session.createQuery(sql, User.class).setParameter("username", username).uniqueResult();
+        }
+    }
+
+
 
 }

@@ -1,0 +1,19 @@
+http://localhost:8081/realms/task-manager/protocol/openid-connect/auth
+    ?client_id=my-client
+    &response_type=code
+    &scope=openid
+    &redirect_uri=http://localhost:8080/swagger-ui/index.html
+
+
+curl --location --request POST 'http://localhost:8081/realms/task-manager/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=authorization_code' \
+--data-urlencode 'code=23aefc89-26b5-4b9d-a56a-ff219cfa5264.0915824c-5da9-4310-8cdb-ea011271c8ce.7a70db57-63bb-41bf-b750-34e46395669e' \
+--data-urlencode 'redirect_uri=http://localhost:8080/swagger-ui/index.html' \
+--data-urlencode 'client_id=my-client' \
+--data-urlencode 'client_secret=oQHXyW4jjgF3c3Ifo8C70QuEtKcr1vnx'
+
+
+
+
+

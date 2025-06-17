@@ -26,9 +26,6 @@ public class User {
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
-
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
@@ -50,19 +47,17 @@ public class User {
         createdAt = LocalDateTime.now();
     }
 
-    public User(String username, String password, String email, String fullName, UserRole role, LocalDateTime createdAt) {
+    public User(String username,String email, String fullName, UserRole role, LocalDateTime createdAt) {
         this.username = username;
-        this.password = password;
         this.email = email;
         this.fullName = fullName;
         this.role = role;
         this.createdAt = createdAt;
     }
 
-    public User(Long id, String username, String password, String email, String fullName, UserRole role) {
+    public User(Long id, String username, String email, String fullName, UserRole role) {
         this.Id = id;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.fullName = fullName;
         this.role = role;

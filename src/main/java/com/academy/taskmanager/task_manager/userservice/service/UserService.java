@@ -42,6 +42,14 @@ public class UserService {
         return userDTOs;
     }
 
+    public UserDTO getUserByUsername(String username){
+        User user = userDao.findByUsername(username);
+        if(user == null){
+            throw  new EntityNotFoundException("user not found");
+        }
+        return userMapper.toDto(user);
+    }
+
     /**
      * Retrieves an user by id and returns him as DTO
      * @param id
@@ -61,10 +69,6 @@ public class UserService {
         if (!validator.checkIfNotEmpty(userCreateDTO.getUsername()) ||
                 !validator.checkLength(userCreateDTO.getUsername(), 1, 25)) {
                 errors.add("Username must be between 1 and 25 characters");
-        }
-
-        if (!validator.checkIfNotEmpty(userCreateDTO.getPassword())) {
-                errors.add("Password must be between 1 and 25 characters");
         }
 
         if (!validator.checkIfNotEmpty(userCreateDTO.getEmail()) ||
@@ -102,10 +106,6 @@ public class UserService {
             } else {
                 user.setUsername(dto.getUsername());
             }
-        }
-
-        if (dto.getPassword() != null) {
-            user.setPassword(dto.getPassword());
         }
 
         if (dto.getEmail() != null) {

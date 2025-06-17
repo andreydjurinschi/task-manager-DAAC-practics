@@ -1,13 +1,41 @@
-# compose file for postgresql db connection
 volumes:
   pg_task-manager:
+
+networks:
+  keycloak-network:
+
 services:
   task-manager_db:
-    image: 'postgres'
+    image: postgres
     restart: always
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: task-manager_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
     volumes:
       - pg_task-manager:/var/lib/postgresql/data
     ports:
       - '5433:5432'
+    networks:
+      - keycloak-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    container_name: keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: task-manager_db
+      KC_DB_URL_DATABASE: task-manager_db
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: pass
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev --http-port=8081
+    ports:
+      - 8081:8081
+    depends_on:
+      - task-manager_db
+    networks:
+      - keycloak-network

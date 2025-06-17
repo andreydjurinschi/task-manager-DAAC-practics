@@ -13,10 +13,10 @@ public class UserMapper {
     }
 
     public User CreateDTOtoEntity(UserCreateDTO userCreateDTO){
-        return new User(userCreateDTO.getUsername(), userCreateDTO.getPassword(), userCreateDTO.getEmail(), userCreateDTO.getFullName(), userCreateDTO.getRole(), userCreateDTO.getCreatedAt());
+        return new User(userCreateDTO.getUsername(),userCreateDTO.getEmail(), userCreateDTO.getFullName(), userCreateDTO.getRole(), userCreateDTO.getCreatedAt());
     }
 
-    public User UpdateDTOtoEntity(UserUpdateDTO userUpdateDTO){
-        return new User(userUpdateDTO.getId(), userUpdateDTO.getUsername(), userUpdateDTO.getPassword(), userUpdateDTO.getEmail(), userUpdateDTO.getFullName(), userUpdateDTO.getRole());
-    }
+/*    public User UpdateDTOtoEntity(UserUpdateDTO userUpdateDTO){
+        return new User(userUpdateDTO.getId(), userUpdateDTO.getUsername(), userUpdateDTO.getEmail(), userUpdateDTO.getFullName(), userUpdateDTO.getRole());
+    }*/
 }
