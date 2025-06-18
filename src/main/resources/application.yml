@@ -1,15 +1,30 @@
-# cfg file
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://localhost:5433/task-manager_db
-#    username: admin
-#    password: pass
-#    driver-class-name: org.postgresql.Driver
-
-
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8081/realms/task-manager
+
+      client:
+        registration:
+          keycloak:
+            client-id: my-client
+            client-secret: HuE45EvZwwTEzzTkAE9z4zTBHGY3NDnY
+            scope: openid, profile, email
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/task-manager
+
+springdoc:
+  swagger-ui:
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
+    oauth:
+      client-id: my-client
+      client-secret: HuE45EvZwwTEzzTkAE9z4zTBHGY3NDnY
+      use-pkce-with-authorization-code-grant: true
+  api-docs:
+    enabled: true
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
